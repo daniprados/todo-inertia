@@ -8,7 +8,7 @@ import App from "@/Layouts/App.vue";
     <App>
     <div class=" flex flex-col sm:justify-center items-center pt-3 sm:pt-0 ">
         <div
-            class="w-full sm:max-w-md mt-3 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+            class="max-w-md mt-3 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
         >
             <slot />
         </div>
