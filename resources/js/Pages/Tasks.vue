@@ -5,21 +5,6 @@ import App from "@/Layouts/App.vue";
 
 import axios from "axios";
 
-// let list = ref([
-//     {id : 1, name : 'Tasca 1', done : false},
-//     {id : 2, name : 'Tasca 2', done : false},
-//     {id : 3, name : 'Tasca 3', done : false},
-//     {id : 4, name : 'Tasca 4', done : true},
-// ]);
-
-// let tasks = computed (() => {
-//     return list.value.filter(task => !task.done);
-// });
-
-// let done = computed (() => {
-//     return list.value.filter(task => task.done);
-// });
-
 let task = ref("");
 let error = ref(false);
 
@@ -76,16 +61,7 @@ function taskUnDone(id) {
   <App>
     <div class="grid grid-cols-12 p-2">
       <div class="col-start-5 col-span-4">
-        <div
-          class="
-            text-sm
-            font-medium
-            text-gray-900
-            bg-white
-            border border-gray-200
-            dark:bg-gray-700 dark:border-gray-600 dark:text-white
-          "
-        >
+        <div class="caixa">
           <div
             class="
               block
@@ -134,21 +110,21 @@ function taskUnDone(id) {
               </div>
             </form>
           </div>
- 
+
           <ul>
-            
-            <li v-for="(task) in tasks" v-bind:key="task.id">
+            <li v-for="task in tasks" v-bind:key="task.id">
               <div class="task">
                 <div class="block pr-5">{{ task.name }}</div>
-                <button @click.prevent="taskDone(task.id)" class="btn btn-red">Fet!</button>
+                <button @click.prevent="taskDone(task.id)" class="btn btn-red">
+                  Fet!
+                </button>
               </div>
             </li>
             <li v-if="task != ''">
               <div class="task">
                 <div class="block pr-5 text-gray-400">
-          {{ task }}  
-          </div>
-                
+                  {{ task }}
+                </div>
               </div>
             </li>
           </ul>
@@ -158,18 +134,9 @@ function taskUnDone(id) {
 
     <div class="grid grid-cols-12 p-2">
       <div class="col-start-5 col-span-4">
-        <div
-          class="
-            text-sm
-            font-medium
-            text-gray-900
-            bg-white
-            border border-gray-200
-            dark:bg-gray-700 dark:border-gray-600 dark:text-white
-          "
-        >
+        <div class="caixa">
           <ul>
-            <li v-for="(task) in done" v-bind:key="task.id">
+            <li v-for="task in done" v-bind:key="task.id">
               <div class="task">
                 <div class="block line-through pr-5">{{ task.name }}</div>
                 <a
@@ -259,5 +226,11 @@ function taskUnDone(id) {
             dark:focus:ring-gray-500
             dark:focus:text-white
             flex;
+}
+
+.caixa {
+  @apply text-sm font-medium text-gray-900 bg-white 
+  border border-gray-200 dark:bg-gray-700 
+  dark:border-gray-600 dark:text-white;
 }
 </style>

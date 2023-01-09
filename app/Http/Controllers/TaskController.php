@@ -18,9 +18,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
-        $tasks = Task::where([['done', "=", 0], ['user_id', "=", Auth::user()->id]])->get();
-        $done = Task::where([['done', "=", 1], ['user_id', "=", Auth::user()->id]])->get();
+        $tasks = Auth::user()->tasks()->where("done", "=", 0)->get(); //Task::where([['done', "=", 0], ['user_id', "=", Auth::user()->id]])->get();
+        $done = Auth::user()->tasks()->where("done", "=", 1)->get(); //Task::where([['done', "=", 1], ['user_id', "=", Auth::user()->id]])->get();
 
         return Inertia::render('Tasks', [
             'tasks' => $tasks,
@@ -29,13 +28,13 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Add new task.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
-        //dd($request);
         $validated = $request->validate(["task" => "required"]);
 
         $task = new Task;
@@ -57,17 +56,13 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
         $task = Task::where([['id', "=", $id], ['user_id', "=", Auth::user()->id]])->first();
-
         $task->done = 1;
         $task->save();
 
-        // Retornar totes les tasques cada vegada és poc eficient.
-        $tasks = Task::where([['done', "=", 0], ['user_id', "=", Auth::user()->id]])->get();
-        $done = Task::where([['done', "=", 1], ['user_id', "=", Auth::user()->id]])->get();
+        $tasks = Auth::user()->tasks()->where("done", "=", 0)->get(); 
+        $done = Auth::user()->tasks()->where("done", "=", 1)->get(); 
         
-        //dd($tasques);
         return response()->json([
             'tasks' => $tasks,
             'done' => $done,
@@ -76,24 +71,21 @@ class TaskController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Restore the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function restore($id)
     {
-        //
         $task = Task::where([['id', "=", $id], ['user_id', "=", Auth::user()->id]])->first();
 
         $task->done = 0;
         $task->save();
         
-        //dd($tasques);
-        $tasks = Task::where([['done', "=", 0], ['user_id', "=", Auth::user()->id]])->get();
-        $done = Task::where([['done', "=", 1], ['user_id', "=", Auth::user()->id]])->get();
+        $tasks = Auth::user()->tasks()->where("done", "=", 0)->get(); 
+        $done = Auth::user()->tasks()->where("done", "=", 1)->get(); 
         
-        //dd($tasques);
         return response()->json([
             'tasks' => $tasks,
             'done' => $done,
